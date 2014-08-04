@@ -11,6 +11,8 @@ import java.util.List;
 
 public class MimimiActivity extends ListActivity {
 
+    private static final int MAX_HEIGHT = 480;
+
     private MimimiAdapter adapter;
 
     @Override
@@ -23,7 +25,18 @@ public class MimimiActivity extends ListActivity {
         try {
             for (String path: getAssets().list("")) {
                 if (path.endsWith(".jpg")) {
-                    bitmaps.add(BitmapFactory.decodeStream(getAssets().open(path)));
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+
+                    BitmapFactory.decodeStream(getAssets().open(path), null, options);
+                    int originWidth = options.outWidth;
+                    int originHeight = options.outHeight;
+                    int scale = Math.round((float)MAX_HEIGHT / (float)originHeight);
+
+                    options = new BitmapFactory.Options();
+                    options.inSampleSize = scale;
+                    bitmaps.add(BitmapFactory.decodeStream(getAssets().open(path), null, options));
                 }
             }
         } catch (Exception e) {

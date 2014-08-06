@@ -25,8 +25,9 @@ public class MimimiAdapter extends ArrayAdapter<Bitmap> {
             convertView = new ImageView(getContext());
         }
 
-        ImageView imageView = (ImageView)convertView;
+        final ImageView imageView = (ImageView)convertView;
         imageView.setImageBitmap(getItem(position));
+        imageView.setBackground(getContext().getResources().getDrawable(R.drawable.ninepatch));
 
         return convertView;
     }

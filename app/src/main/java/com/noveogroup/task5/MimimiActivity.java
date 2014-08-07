@@ -5,18 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MimimiActivity extends ListActivity {
+public class MimimiActivity extends ListActivity implements AbsListView.OnScrollListener {
 
     private static final int MAX_HEIGHT = 300;
+    private static int maxItemCountOnScreen = 5;
 
     private MimimiAdapter adapter;
+
+    private boolean isScreenFull = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,18 +54,7 @@ public class MimimiActivity extends ListActivity {
         adapter = new MimimiAdapter(this, bitmaps);
         setListAdapter(adapter);
 
-        ListView listView = getListView();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (view.getBackground().getConstantState().equals(getResources().getDrawable(R.drawable.ninepatch_red).getConstantState())) {
-                    view.setBackground(getResources().getDrawable(R.drawable.ninepatch));
-                } else {
-                    view.setBackground(getResources().getDrawable(R.drawable.ninepatch_red));
-                }
-
-            }
-        });
+        getListView().setOnScrollListener(this);
     }
 
     private int calcMaxScale(int originHeight) {
@@ -76,5 +66,19 @@ public class MimimiActivity extends ListActivity {
         }
 
         return scale;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+        Log.d("asd", scrollState + "a");
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        /*if () {
+            isScreenFull = true;
+        } else {
+            isScreenFull = false;
+        }*/
     }
 }

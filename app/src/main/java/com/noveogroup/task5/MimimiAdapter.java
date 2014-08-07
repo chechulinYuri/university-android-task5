@@ -2,6 +2,7 @@ package com.noveogroup.task5;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,12 +23,11 @@ public class MimimiAdapter extends ArrayAdapter<Bitmap> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = new ImageView(getContext());
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
 
         final ImageView imageView = (ImageView)convertView;
         imageView.setImageBitmap(getItem(position));
-        imageView.setBackground(getContext().getResources().getDrawable(R.drawable.ninepatch));
 
         return convertView;
     }
